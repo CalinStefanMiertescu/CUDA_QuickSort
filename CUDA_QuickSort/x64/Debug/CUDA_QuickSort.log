@@ -1,9 +1,9 @@
 ﻿  Compiling CUDA source file quicksort.cu...
   
-  D:\CUDA_QuickSort\CUDA_QuickSort>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\bin\HostX64\x64" -x cu   -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\include"  -G   --keep-dir CUDA_QuickSort\x64\Debug  -maxrregcount=0    --machine 64 --compile -cudart static  -g  -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -Xcompiler "/FdCUDA_QuickSort\x64\Debug\vc143.pdb" -o D:\CUDA_QuickSort\CUDA_QuickSort\CUDA_QuickSort\x64\Debug\quicksort.cu.obj "D:\CUDA_QuickSort\CUDA_QuickSort\quicksort.cu" 
+  D:\CUDA_QuickSort>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.43.34808\bin\HostX64\x64" -x cu   -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\include"  -G   --keep-dir CUDA_QuickSort\x64\Debug  -maxrregcount=0    --machine 64 --compile -cudart static  -g  -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -Xcompiler "/FdCUDA_QuickSort\x64\Debug\vc143.pdb" -o D:\CUDA_QuickSort\CUDA_QuickSort\x64\Debug\quicksort.cu.obj "D:\CUDA_QuickSort\quicksort.cu" 
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
   quicksort.cu
-  tmpxft_000052c8_00000000-7_quicksort.cudafe1.cpp
-D:\CUDA_QuickSort\CUDA_QuickSort\quicksort.cu(26): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\CUDA_QuickSort\CUDA_QuickSort\quicksort.cu(44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  CUDA_QuickSort.vcxproj -> D:\CUDA_QuickSort\CUDA_QuickSort\x64\Debug\CUDA_QuickSort.exe
+  tmpxft_000014f0_00000000-7_quicksort.cudafe1.cpp
+D:\CUDA_QuickSort\quicksort.cu(26): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\CUDA_QuickSort\quicksort.cu(44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  CUDA_QuickSort.vcxproj -> D:\CUDA_QuickSort\x64\Debug\CUDA_QuickSort.exe

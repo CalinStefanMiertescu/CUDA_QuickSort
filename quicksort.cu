@@ -4,41 +4,41 @@
 #include <cuda_runtime.h>
 #include <math.h>
 
-#define MAX_THREADS	128 
+#define MAX_THREADS	128 // numarul maxim de thread-uri
 #define N		512
 #define MAX_LEVELS	300
 
 int*	r_values;
 int*	d_values;
 
-// CUDA error checking macro
+// Macro pentru verificarea erorilor CUDA
 #define CUDA_CHECK(call) \
     do { \
         cudaError_t err = call; \
         if (err != cudaSuccess) { \
-            fprintf(stderr, "CUDA error at %s:%d: %s\n", __FILE__, __LINE__, cudaGetErrorString(err)); \
+            fprintf(stderr, "Eroare CUDA la %s:%d: %s\n", __FILE__, __LINE__, cudaGetErrorString(err)); \
             exit(EXIT_FAILURE); \
         } \
     } while (0)
 
-// initialize data set
+// initializare set de date
 void Init(int* values, int i) {
 	srand( time(NULL) );
         printf("\n------------------------------\n");
 
         if (i == 0) {
-        // Uniform distribution
-                printf("Data set distribution: Uniform\n");
+        // Distributie uniforma
+                printf("Distributia setului de date: Uniforma\n");
                 for (int x = 0; x < N; ++x) {
                         values[x] = rand() % 100;
                         //printf("%d ", values[x]);
                 }
         }
         else if (i == 1) {
-        // Gaussian distribution
+        // Distributie gaussiana
         #define MEAN    100
         #define STD_DEV 5
-                printf("Data set distribution: Gaussian\n");
+                printf("Distributia setului de date: Gaussiana\n");
                 float r;
                 for (int x = 0; x < N; ++x) {
                         r  = (rand()%3 - 1) + (rand()%3 - 1) + (rand()%3 - 1);
@@ -47,8 +47,8 @@ void Init(int* values, int i) {
                 }
         }
         else if (i == 2) {
-        // Bucket distribution
-                printf("Data set distribution: Bucket\n");
+        // Distributie in galeti
+                printf("Distributia setului de date: Galeti\n");
                 int j = 0;
                 for (int x = 0; x < N; ++x, ++j) {
                         if (j / 20 < 1)
@@ -67,15 +67,15 @@ void Init(int* values, int i) {
                 }
         }
         else if (i == 3) {
-        // Sorted distribution
-                printf("Data set distribution: Sorted\n");
+        // Distributie sortata
+                printf("Distributia setului de date: Sortata\n");
                 /*for (int x = 0; x < N; ++x)
                         printf("%d ", values[x]);
 		*/
         }
 	else if (i == 4) {
-        // Zero distribution
-                printf("Data set distribution: Zero\n");
+        // Distributie zero (toate elementele egale)
+                printf("Distributia setului de date: Zero\n");
                 int r = rand() % 100;
                 for (int x = 0; x < N; ++x) {
                         values[x] = r;
@@ -85,7 +85,7 @@ void Init(int* values, int i) {
         printf("\n");
 }
 
-// Kernel function
+// Functie kernel CUDA
 __global__ static void quicksort(int* values) {
 	int pivot, L, R;
 	int idx =  threadIdx.x + blockIdx.x * blockDim.x;
@@ -114,12 +114,12 @@ __global__ static void quicksort(int* values) {
 			end[idx + 1] = end[idx];
 			end[idx++] = L;
 			if (end[idx] - start[idx] > end[idx - 1] - start[idx - 1]) {
-	                        // swap start[idx] and start[idx-1]
+	                        // interschimba start[idx] si start[idx-1]
         	                int tmp = start[idx];
                 	        start[idx] = start[idx - 1];
                         	start[idx - 1] = tmp;
 
-	                        // swap end[idx] and end[idx-1]
+	                        // interschimba end[idx] si end[idx-1]
         	                tmp = end[idx];
                 	        end[idx] = end[idx - 1];
                         	end[idx - 1] = tmp;
@@ -131,38 +131,37 @@ __global__ static void quicksort(int* values) {
 	}
 }
  
-// program main
 int main(int argc, char **argv) {
-	printf("Quicksort starting with %d numbers. ", N);
+	printf("Quicksort incepe cu %d numere. ", N);
 	size_t size = N * sizeof(int);
 	r_values = (int*)malloc(size);
 	d_values = NULL;
 	CUDA_CHECK(cudaMalloc((void**)&d_values, size));
 	const unsigned int cThreadsPerBlock = 128;
 	
-	/* Types of data sets to be sorted:
-         *      1. Normal distribution
-         *      2. Gaussian distribution
-         *      3. Bucket distribution
-         *      4. Sorted Distribution
-         *      5. Zero Distribution
+	/* Tipuri de seturi de date de sortat:
+         *      1. Distributie normala
+         *      2. Distributie gaussiana
+         *      3. Distributie in galeti
+         *      4. Distributie sortata
+         *      5. Distributie zero
          */
 
 	for (int i = 0; i < 5; ++i) {
-                // initialize data set
+                // initializare set de date
                 Init(r_values, i);
 
-	 	// copy data to device	
+	 	// copiere date pe dispozitiv	
 		CUDA_CHECK(cudaMemcpy(d_values, r_values, size, cudaMemcpyHostToDevice));
 
-		printf("Beginning kernel execution...\n");
+		printf("Incepe executia kernel-ului...\n");
 
 		cudaEvent_t start, stop;
 		CUDA_CHECK(cudaEventCreate(&start));
 		CUDA_CHECK(cudaEventCreate(&stop));
 		CUDA_CHECK(cudaEventRecord(start, 0));
 	
-		// execute kernel
+		// executie kernel
  		quicksort <<< MAX_THREADS / cThreadsPerBlock, MAX_THREADS / cThreadsPerBlock, cThreadsPerBlock >>> (d_values);
 	 	CUDA_CHECK(cudaGetLastError());
 	 	CUDA_CHECK(cudaDeviceSynchronize());
@@ -171,35 +170,28 @@ int main(int argc, char **argv) {
 		float gpuTime = 0;
 		CUDA_CHECK(cudaEventElapsedTime(&gpuTime, start, stop));
 
- 		printf( "\nKernel execution completed in %f ms\n", gpuTime );
+ 		printf( "\nExecutia kernel-ului s-a finalizat in %f ms\n", gpuTime );
 	 	
-	 	// copy data back to host
+	 	// copiere date inapoi pe host
 		CUDA_CHECK(cudaMemcpy(r_values, d_values, size, cudaMemcpyDeviceToHost));
  	
-	 	// test print
- 		/*for (int i = 0; i < N; i++) {
- 			printf("%d ", r_values[i]);
- 		}
- 		printf("\n");
-		*/
-
-		// test
-                printf("\nTesting results...\n");
+	 	// test
+                printf("\nTestare rezultate...\n");
                 for (int x = 0; x < N - 1; x++) {
                         if (r_values[x] > r_values[x + 1]) {
-                                printf("Sorting failed.\n");
+                                printf("Sortarea a esuat.\n");
                                 break;
                         }
                         else
                                 if (x == N - 2)
-                                        printf("SORTING SUCCESSFUL\n");
+                                        printf("SORTARE REUSITA\n");
                 }
 
 		CUDA_CHECK(cudaEventDestroy(start));
 		CUDA_CHECK(cudaEventDestroy(stop));
 	}
  	
- 	// free memory
+	// eliberare memorie
 	CUDA_CHECK(cudaFree(d_values));
  	free(r_values);
  	

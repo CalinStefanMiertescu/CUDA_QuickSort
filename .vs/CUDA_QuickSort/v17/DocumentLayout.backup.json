@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\CUDA_QuickSort\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{77151212-D511-12D0-984C-11B0988681F8}|CUDA_QuickSort.vcxproj|D:\\CUDA_QuickSort\\quicksort.cu||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{77151212-D511-12D0-984C-11B0988681F8}|CUDA_QuickSort.vcxproj|solutionrelative:quicksort.cu||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "quicksort.cu",
+              "DocumentMoniker": "D:\\CUDA_QuickSort\\quicksort.cu",
+              "RelativeDocumentMoniker": "quicksort.cu",
+              "ToolTip": "D:\\CUDA_QuickSort\\quicksort.cu",
+              "RelativeToolTip": "quicksort.cu",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-04T20:23:56.89Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
